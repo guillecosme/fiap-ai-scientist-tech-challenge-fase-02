@@ -35,3 +35,14 @@ module "streaming" {
   localstack_endpoint = local.localstack_endpoint
   tags                = local.default_tags
 }
+
+module "analytics" {
+  source = "../../modules/analytics"
+
+  project       = var.project
+  environment   = var.environment
+  gold_bucket   = module.storage.bucket_names["gold"]
+  gold_database = module.storage.glue_databases["gold"]
+  role_arn      = module.iam.role_arn
+  tags          = local.default_tags
+}
