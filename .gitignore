@@ -1,0 +1,63 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+downloads/
+*.egg-info/
+*.egg
+
+# Ambientes virtuais
+.venv/
+venv/
+env/
+ENV/
+
+# uv
+.uv-cache/
+
+# Editor / IDE
+.idea/
+.vscode/
+*.swp
+.DS_Store
+
+# Dados das camadas (geradas localmente, nao versionar)
+data/bronze/*
+data/silver/*
+data/gold/*
+!data/bronze/.gitkeep
+!data/silver/.gitkeep
+!data/gold/.gitkeep
+*.parquet
+*.csv
+*.json.gz
+
+# Terraform
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+*.tfvars
+!example.tfvars
+crash.log
+override.tf
+override.tf.json
+.terraform.lock.hcl
+
+# AWS / credenciais
+.aws/
+*.pem
+credentials
+
+# LocalStack
+.localstack/
+volume/
+
+# Logs e temporarios
+*.log
+tmp/
+.pytest_cache/
+.ruff_cache/
