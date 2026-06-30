@@ -1,0 +1,25 @@
+services:
+  # Emulador da AWS para rodar a pipeline localmente sem custo e sem depender de conta.
+  # Cobre S3, Kinesis, Lambda, IAM, Glue Catalog e Step Functions na medida usada pelo projeto.
+  localstack:
+    image: localstack/localstack:3.5
+    ports:
+      - "4566:4566"
+    environment:
+      - SERVICES=s3,kinesis,lambda,iam,glue,stepfunctions,events,cloudwatch,sns,logs
+      - DEBUG=0
+      - PERSISTENCE=1
+    volumes:
+      - "./volume:/var/lib/localstack"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+
+  # Spark standalone para executar os jobs PySpark das transformacoes localmente.
+  spark:
+    image: bitnami/spark:3.5
+    environment:
+      - SPARK_MODE=master
+    ports:
+      - "8080:8080"
+      - "7077:7077"
+    volumes:
+      - "./:/workspace"
