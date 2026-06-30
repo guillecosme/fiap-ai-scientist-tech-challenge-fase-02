@@ -27,3 +27,9 @@ variable "extra_tags" {
   type        = map(string)
   default     = {}
 }
+
+variable "alert_email" {
+  description = "E-mail opcional para receber os alertas de monitoramento"
+  type        = string
+  default     = ""
+}
