@@ -12,3 +12,8 @@ output "pipeline_role_arn" {
   description = "ARN da role usada pelos jobs da pipeline"
   value       = module.iam.role_arn
 }
+
+output "kinesis_stream_name" {
+  description = "Nome do stream de eventos de alfabetizacao"
+  value       = module.streaming.stream_name
+}
