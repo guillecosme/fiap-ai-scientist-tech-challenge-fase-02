@@ -12,8 +12,10 @@ resource "aws_sns_topic_subscription" "email" {
   endpoint  = var.alert_email
 }
 
-# Falha de execucao da pipeline (Step Functions).
+# Falha de execucao da pipeline (Step Functions). So existe quando ha orquestracao
+# gerenciada; no localstack a pipeline roda pelo orquestrador local.
 resource "aws_cloudwatch_metric_alarm" "pipeline_falhou" {
+  count               = var.enable_sfn_alarm ? 1 : 0
   alarm_name          = "${var.project}-pipeline-falhou-${var.environment}"
   namespace           = "AWS/States"
   metric_name         = "ExecutionsFailed"

@@ -41,6 +41,12 @@ variable "schedule_expression" {
   default     = "rate(1 day)"
 }
 
+variable "force_destroy" {
+  description = "Permite destruir o bucket de artefatos mesmo com objetos"
+  type        = bool
+  default     = false
+}
+
 variable "tags" {
   type    = map(string)
   default = {}

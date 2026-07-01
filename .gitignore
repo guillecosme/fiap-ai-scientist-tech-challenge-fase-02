@@ -47,6 +47,8 @@ infra/terraform/**/build/
 *.tfstate.*
 *.tfvars
 !example.tfvars
+# o tfvars do localstack descreve ambiente local sem segredos, entao e versionado
+!infra/terraform/environments/localstack/terraform.tfvars
 crash.log
 override.tf
 override.tf.json
