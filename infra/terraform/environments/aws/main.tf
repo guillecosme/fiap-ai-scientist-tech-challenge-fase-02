@@ -11,6 +11,7 @@ module "storage" {
   project       = var.project
   environment   = var.environment
   bucket_suffix = random_id.suffix.hex
+  force_destroy = var.force_destroy
   tags          = local.default_tags
 }
 
@@ -58,6 +59,7 @@ module "orchestration" {
   silver_bucket     = module.storage.bucket_names["silver"]
   gold_bucket       = module.storage.bucket_names["gold"]
   pipeline_role_arn = module.iam.role_arn
+  force_destroy     = var.force_destroy
   tags              = local.default_tags
 }
 

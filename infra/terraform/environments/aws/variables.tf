@@ -33,3 +33,9 @@ variable "alert_email" {
   type        = string
   default     = ""
 }
+
+variable "force_destroy" {
+  description = "Permite destruir os buckets mesmo com objetos. Conveniente em ambiente de teste"
+  type        = bool
+  default     = false
+}
