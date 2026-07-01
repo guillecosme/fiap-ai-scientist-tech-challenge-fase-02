@@ -123,45 +123,41 @@ Os slides que acompanham o vídeo executivo estão em [reports/slides/pipeline_a
 
 ## Como rodar
 
-Pré-requisitos: Docker, uv e Terraform. Para os jobs Spark localmente, também Java 17.
-
-### Local, sem custo
+A pipeline roda em três modos, do mais simples ao mais completo. Comece por `make doctor` para checar os pré-requisitos. O guia detalhado, com a tabela de decisão e a saída esperada de cada passo, está em [docs/deploy.md](docs/deploy.md).
 
 ```bash
-make setup                      # instala dependencias com uv
-bash scripts/run_pipeline_local.sh   # roda a pipeline inteira (bronze a gold + gate)
+make doctor        # checa pre-requisitos por modo
+
+make local         # filesystem, sem nuvem (uv + Java)
+
+make ls-up         # LocalStack: sobe os containers
+make ls-deploy     # provisiona a infra e imprime o .env
+make ls-run        # roda a pipeline contra o S3 do LocalStack
+
+make aws-deploy    # AWS real: provisiona na sua conta (Terraform)
+make aws-run       # dispara a pipeline (Step Functions)
+make aws-destroy   # derruba tudo, esvaziando os buckets antes
 ```
 
-As camadas saem em `data/` no formato Parquet. O passo a passo completo, incluindo o uso do LocalStack, está em [docs/runbook.md](docs/runbook.md).
-
-### Na AWS
-
-```bash
-cd infra/terraform/environments/dev
-terraform init
-terraform apply       # sobe todo o ambiente
-# ...
-terraform destroy     # derruba tudo
-```
-
-Nada de account id ou nome de bucket fixo no código: os nomes recebem um sufixo aleatório e tudo é parametrizado, então o ambiente sobe e desce em qualquer conta sem ajuste manual.
+Nada de account id ou nome de bucket fixo no código: os nomes recebem um sufixo aleatório e tudo é parametrizado, então o ambiente sobe e desce em qualquer conta sem ajuste manual. O mesmo código roda contra o LocalStack (custo zero) ou contra a AWS real, controlado por variáveis de ambiente e por dois roots de Terraform (`infra/terraform/environments/aws` e `.../localstack`).
 
 ## Estrutura do repositório
 
 ```
 .
-├── infra/terraform/     # infraestrutura como codigo (modulos e ambiente dev)
+├── infra/terraform/     # modulos e dois roots: environments/aws e environments/localstack
 ├── src/pipeline/        # ingestao, transformacoes, qualidade e utilitarios
 ├── jobs/                # entrypoints dos jobs (batch, silver, gold, qualidade)
-├── scripts/             # orquestrador local
+├── scripts/             # doctor, bootstrap localstack, run_pipeline e teardown
 ├── tests/               # testes
-├── docs/                # arquitetura, dicionario de dados, finops, runbook
+├── docs/                # arquitetura, deploy, dicionario de dados, finops, runbook
 └── data/                # camadas locais e amostras (seeds)
 ```
 
 ## Documentação
 
 - [Arquitetura](docs/architecture.md)
+- [Guia de execução e deploy](docs/deploy.md)
 - [Dicionário de dados](docs/data_dictionary.md)
 - [FinOps](docs/finops.md)
 - [Runbook de execução](docs/runbook.md)
