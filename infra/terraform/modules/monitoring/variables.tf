@@ -11,8 +11,15 @@ variable "region" {
 }
 
 variable "state_machine_arn" {
-  description = "ARN da state machine, para alarmar em falhas de execucao"
+  description = "ARN da state machine, para alarmar em falhas de execucao. Vazio quando nao ha orquestracao gerenciada (modo localstack)"
   type        = string
+  default     = ""
+}
+
+variable "enable_sfn_alarm" {
+  description = "Liga o alarme de falha da Step Functions. Desligado no localstack, onde nao ha Step Functions gerenciado"
+  type        = bool
+  default     = true
 }
 
 variable "consumer_function_name" {
