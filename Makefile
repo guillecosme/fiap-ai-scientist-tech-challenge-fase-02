@@ -29,13 +29,13 @@ down:
 	docker compose down -v
 
 plan:
-	cd infra/terraform/environments/dev && terraform init -input=false && terraform plan
+	cd infra/terraform/environments/aws && terraform init -input=false && terraform plan
 
 deploy:
-	cd infra/terraform/environments/dev && terraform init -input=false && terraform apply -auto-approve
+	cd infra/terraform/environments/aws && terraform init -input=false && terraform apply -auto-approve
 
 destroy:
-	cd infra/terraform/environments/dev && terraform destroy -auto-approve
+	cd infra/terraform/environments/aws && terraform destroy -auto-approve
 
 clean:
 	rm -rf .pytest_cache .ruff_cache
