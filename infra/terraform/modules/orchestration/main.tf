@@ -11,8 +11,11 @@ locals {
     "--SILVER_BUCKET"   = var.silver_bucket
     "--GOLD_BUCKET"     = var.gold_bucket
     "--AWS_REGION"      = var.region
+    "--SEEDS_DIR"       = "s3a://${var.bronze_bucket}/_seeds"
     "--job-language"    = "python"
   }
+
+  seeds_dir = "${path.module}/../../../../data/seeds"
 
   stages = {
     ingestao  = "batch_ingest_job.py"
@@ -58,6 +61,18 @@ resource "aws_s3_object" "job_script" {
   key    = "code/${each.value}"
   source = "${local.jobs_dir}/${each.value}"
   etag   = filemd5("${local.jobs_dir}/${each.value}")
+}
+
+# Sobe as amostras para o Bronze, para a ingestao batch rodar no Glue sem
+# depender de credenciais do GCP. Em conta com acesso a Base dos Dados, basta
+# definir BD_BILLING_PROJECT_ID e a ingestao passa a puxar da fonte.
+resource "aws_s3_object" "seed" {
+  for_each = fileset(local.seeds_dir, "*.csv")
+
+  bucket = var.bronze_bucket
+  key    = "_seeds/${each.value}"
+  source = "${local.seeds_dir}/${each.value}"
+  etag   = filemd5("${local.seeds_dir}/${each.value}")
 }
 
 resource "aws_glue_job" "stage" {
