@@ -36,6 +36,10 @@ data/gold/*
 *.csv
 *.json.gz
 
+# As amostras locais sao versionadas de proposito (deixam a pipeline rodavel sem credenciais)
+!data/seeds/
+!data/seeds/*.csv
+
 # Terraform
 **/.terraform/*
 *.tfstate
