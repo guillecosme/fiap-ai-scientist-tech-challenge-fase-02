@@ -1,0 +1,8 @@
+id_uf,sigla_uf,nome_uf,id_regiao,nome_regiao
+35,SP,Sao Paulo,3,Sudeste
+33,RJ,Rio de Janeiro,3,Sudeste
+29,BA,Bahia,2,Nordeste
+23,CE,Ceara,2,Nordeste
+53,DF,Distrito Federal,5,Centro-Oeste
+43,RS,Rio Grande do Sul,4,Sul
+15,PA,Para,1,Norte
