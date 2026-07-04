@@ -22,3 +22,16 @@ module "iam" {
   bucket_arns = module.storage.bucket_arns
   tags        = local.default_tags
 }
+
+module "streaming" {
+  source = "../../modules/streaming"
+
+  project             = var.project
+  environment         = var.environment
+  bronze_bucket       = module.storage.bucket_names["bronze"]
+  role_arn            = module.iam.role_arn
+  role_name           = module.iam.role_name
+  use_localstack      = var.use_localstack
+  localstack_endpoint = local.localstack_endpoint
+  tags                = local.default_tags
+}
