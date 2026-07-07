@@ -17,3 +17,8 @@ output "kinesis_stream_name" {
   description = "Nome do stream de eventos de alfabetizacao"
   value       = module.streaming.stream_name
 }
+
+output "athena_workgroup" {
+  description = "Workgroup do Athena para consultar a camada Gold"
+  value       = module.analytics.athena_workgroup
+}
