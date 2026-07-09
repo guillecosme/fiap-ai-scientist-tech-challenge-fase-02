@@ -46,3 +46,17 @@ module "analytics" {
   role_arn      = module.iam.role_arn
   tags          = local.default_tags
 }
+
+module "orchestration" {
+  source = "../../modules/orchestration"
+
+  project           = var.project
+  environment       = var.environment
+  region            = var.region
+  bucket_suffix     = random_id.suffix.hex
+  bronze_bucket     = module.storage.bucket_names["bronze"]
+  silver_bucket     = module.storage.bucket_names["silver"]
+  gold_bucket       = module.storage.bucket_names["gold"]
+  pipeline_role_arn = module.iam.role_arn
+  tags              = local.default_tags
+}
