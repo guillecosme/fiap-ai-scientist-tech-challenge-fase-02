@@ -22,3 +22,8 @@ output "athena_workgroup" {
   description = "Workgroup do Athena para consultar a camada Gold"
   value       = module.analytics.athena_workgroup
 }
+
+output "state_machine_arn" {
+  description = "ARN da state machine que orquestra a pipeline"
+  value       = module.orchestration.state_machine_arn
+}

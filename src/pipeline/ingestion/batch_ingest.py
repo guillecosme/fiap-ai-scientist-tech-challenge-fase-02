@@ -79,7 +79,8 @@ def main() -> None:
         help="Data de ingestao usada como particao (YYYY-MM-DD)",
     )
     parser.add_argument("--seeds-dir", default="data/seeds", help="Diretorio das amostras locais")
-    args = parser.parse_args()
+    # parse_known_args ignora os argumentos extras que o Glue injeta no job.
+    args, _ = parser.parse_known_args()
     run(args.table, args.ingestion_date, args.seeds_dir)
 
 
