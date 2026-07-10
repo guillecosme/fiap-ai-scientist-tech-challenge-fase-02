@@ -60,3 +60,15 @@ module "orchestration" {
   pipeline_role_arn = module.iam.role_arn
   tags              = local.default_tags
 }
+
+module "monitoring" {
+  source = "../../modules/monitoring"
+
+  project                = var.project
+  environment            = var.environment
+  region                 = var.region
+  state_machine_arn      = module.orchestration.state_machine_arn
+  consumer_function_name = module.streaming.consumer_function_name
+  alert_email            = var.alert_email
+  tags                   = local.default_tags
+}
