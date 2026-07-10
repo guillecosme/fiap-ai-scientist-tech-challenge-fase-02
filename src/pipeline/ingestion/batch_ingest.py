@@ -13,6 +13,7 @@ import os
 from typing import TYPE_CHECKING
 
 from pipeline.common import get_settings, get_spark, layer_path, write_parquet
+from pipeline.common.metrics import emit_metric
 from pipeline.ingestion.sources import BATCH_TABLES, SourceTable, get_batch_table
 
 if TYPE_CHECKING:
@@ -59,6 +60,7 @@ def ingest_table(
     )
     destination = layer_path("bronze", table.name)
     write_parquet(enriched, destination, mode="overwrite", partition_by=["ingestion_date"])
+    emit_metric("RecordsIngested", enriched.count(), "Count", {"table": table.name})
     return destination
 
 
