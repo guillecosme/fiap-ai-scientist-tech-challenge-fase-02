@@ -27,3 +27,8 @@ output "state_machine_arn" {
   description = "ARN da state machine que orquestra a pipeline"
   value       = module.orchestration.state_machine_arn
 }
+
+output "alertas_sns_topic_arn" {
+  description = "Topico SNS de alertas de monitoramento"
+  value       = module.monitoring.sns_topic_arn
+}
