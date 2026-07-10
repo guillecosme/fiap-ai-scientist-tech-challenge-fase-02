@@ -6,8 +6,10 @@ pipeline.ingestion.batch_ingest para manter o entrypoint fino.
 """
 
 from pipeline.common.glue import load_glue_env
+from pipeline.common.metrics import StageMonitor
 from pipeline.ingestion.batch_ingest import main
 
 if __name__ == "__main__":
     load_glue_env()
-    main()
+    with StageMonitor("ingestao"):
+        main()
