@@ -48,6 +48,44 @@ resource "aws_s3_bucket_public_access_block" "layer" {
   restrict_public_buckets = true
 }
 
+# Ciclo de vida das camadas, pensado para FinOps. O Bronze guarda o historico
+# bruto e e o que mais cresce, entao move para classes mais baratas com o tempo
+# e limpa versoes antigas. Silver e Gold ficam quentes por mais tempo por serem
+# o que alimenta consultas e modelos.
+resource "aws_s3_bucket_lifecycle_configuration" "layer" {
+  for_each = aws_s3_bucket.layer
+
+  bucket = each.value.id
+
+  rule {
+    id     = "transicao-classes"
+    status = "Enabled"
+
+    filter {}
+
+    transition {
+      days          = each.key == "bronze" ? 30 : 90
+      storage_class = "STANDARD_IA"
+    }
+
+    dynamic "transition" {
+      for_each = each.key == "bronze" ? [1] : []
+      content {
+        days          = 120
+        storage_class = "GLACIER"
+      }
+    }
+
+    noncurrent_version_expiration {
+      noncurrent_days = 90
+    }
+
+    abort_incomplete_multipart_upload {
+      days_after_initiation = 7
+    }
+  }
+}
+
 resource "aws_glue_catalog_database" "layer" {
   for_each = toset(local.layers)
 
