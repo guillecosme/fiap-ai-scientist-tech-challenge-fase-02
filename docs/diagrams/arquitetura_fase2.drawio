@@ -1,0 +1,123 @@
+<mxfile host="app.diagrams.net" type="device">
+  <diagram id="arq-fase2" name="Arquitetura Fase 2">
+    <mxGraphModel dx="1600" dy="1000" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1650" pageHeight="920" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Titulo -->
+        <mxCell id="title" value="Pipeline Hibrido de Alfabetizacao &#8212; Arquitetura na AWS (medalhao Bronze / Silver / Gold)" style="text;html=1;strokeColor=none;fillColor=#1A1A1A;fontColor=#FFFFFF;fontFamily=Calibri;fontSize=20;fontStyle=1;verticalAlign=middle;align=left;spacingLeft=24;" vertex="1" parent="1">
+          <mxGeometry x="40" y="24" width="1570" height="52" as="geometry" />
+        </mxCell>
+        <mxCell id="titleaccent" value="" style="rounded=0;fillColor=#ED145B;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="40" y="24" width="10" height="52" as="geometry" />
+        </mxCell>
+
+        <!-- Orquestracao (faixa superior) -->
+        <mxCell id="orch" value="AWS Step Functions + EventBridge &#8212; orquestra ingestao &#8594; Silver &#8594; Gold &#8594; gate de qualidade" style="rounded=1;fillColor=#FDE7EF;strokeColor=#ED145B;fontColor=#ED145B;fontFamily=Calibri;fontSize=13;fontStyle=1;dashed=0;" vertex="1" parent="1">
+          <mxGeometry x="300" y="104" width="1020" height="42" as="geometry" />
+        </mxCell>
+
+        <!-- Fontes -->
+        <mxCell id="src_lbl" value="FONTES" style="text;html=1;strokeColor=none;fillColor=none;fontColor=#555555;fontFamily=Calibri;fontSize=12;fontStyle=1;align=left;" vertex="1" parent="1">
+          <mxGeometry x="40" y="180" width="220" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="src_bd" value="Base dos Dados&#10;(BigQuery publico)" style="rounded=1;fillColor=#FAFAFA;strokeColor=#555555;fontColor=#1A1A1A;fontFamily=Calibri;fontSize=13;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="210" width="210" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="src_ev" value="Eventos simulados&#10;(novas medicoes / metas)" style="rounded=1;fillColor=#FAFAFA;strokeColor=#555555;fontColor=#1A1A1A;fontFamily=Calibri;fontSize=13;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="360" width="210" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- Ingestao -->
+        <mxCell id="ing_lbl" value="INGESTAO HIBRIDA" style="text;html=1;strokeColor=none;fillColor=none;fontColor=#555555;fontFamily=Calibri;fontSize=12;fontStyle=1;align=left;" vertex="1" parent="1">
+          <mxGeometry x="290" y="180" width="220" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="ing_batch" value="Batch&#10;AWS Glue + EventBridge" style="rounded=1;fillColor=#FFFFFF;strokeColor=#ED145B;fontColor=#1A1A1A;fontFamily=Calibri;fontSize=13;whiteSpace=wrap;html=1;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="290" y="210" width="220" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="ing_stream" value="Streaming&#10;Amazon Kinesis + Lambda" style="rounded=1;fillColor=#FFFFFF;strokeColor=#ED145B;fontColor=#1A1A1A;fontFamily=Calibri;fontSize=13;whiteSpace=wrap;html=1;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="290" y="360" width="220" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- Container S3 medalhao -->
+        <mxCell id="lake" value="Amazon S3 &#8212; Data Lake (Parquet particionado)" style="rounded=1;fillColor=none;strokeColor=#1A1A1A;fontColor=#1A1A1A;fontFamily=Calibri;fontSize=13;fontStyle=1;verticalAlign=top;align=center;dashed=1;spacingTop=8;" vertex="1" parent="1">
+          <mxGeometry x="560" y="176" width="770" height="520" as="geometry" />
+        </mxCell>
+
+        <!-- Bronze -->
+        <mxCell id="bronze" value="&lt;b&gt;BRONZE&lt;/b&gt;&lt;br&gt;dado bruto&lt;br&gt;&lt;br&gt;alunos&lt;br&gt;municipio&lt;br&gt;uf&lt;br&gt;meta_brasil&lt;br&gt;meta_uf&lt;br&gt;meta_municipio&lt;br&gt;alunos_streaming&lt;br&gt;&lt;br&gt;&lt;i&gt;particionado por data&lt;br&gt;historico preservado&lt;/i&gt;" style="rounded=1;fillColor=#F5ECE1;strokeColor=#B0794A;fontColor=#5A4326;fontFamily=Calibri;fontSize=12;whiteSpace=wrap;html=1;verticalAlign=top;spacingTop=10;" vertex="1" parent="1">
+          <mxGeometry x="580" y="212" width="228" height="464" as="geometry" />
+        </mxCell>
+
+        <!-- Silver -->
+        <mxCell id="silver" value="&lt;b&gt;SILVER&lt;/b&gt;&lt;br&gt;limpo + integrado&lt;br&gt;&lt;br&gt;alunos (batch + streaming)&lt;br&gt;municipio&lt;br&gt;uf&lt;br&gt;meta_brasil&lt;br&gt;meta_uf&lt;br&gt;meta_municipio&lt;br&gt;&lt;br&gt;&lt;i&gt;chaves normalizadas&lt;br&gt;bases integradas&lt;/i&gt;" style="rounded=1;fillColor=#EEF0F3;strokeColor=#8A909C;fontColor=#3A3F49;fontFamily=Calibri;fontSize=12;whiteSpace=wrap;html=1;verticalAlign=top;spacingTop=10;" vertex="1" parent="1">
+          <mxGeometry x="828" y="212" width="228" height="464" as="geometry" />
+        </mxCell>
+
+        <!-- Gold -->
+        <mxCell id="gold" value="&lt;b&gt;GOLD&lt;/b&gt;&lt;br&gt;analitico (star schema)&lt;br&gt;&lt;br&gt;dim_municipio&lt;br&gt;fato_alfabetizacao&lt;br&gt;indicador_municipio&lt;br&gt;comparacao_meta_uf&lt;br&gt;evolucao_temporal&lt;br&gt;&lt;br&gt;&lt;i&gt;pronta para BI,&lt;br&gt;estatistica e ML&lt;/i&gt;" style="rounded=1;fillColor=#FBF3D9;strokeColor=#C9A227;fontColor=#6B5410;fontFamily=Calibri;fontSize=12;whiteSpace=wrap;html=1;verticalAlign=top;spacingTop=10;" vertex="1" parent="1">
+          <mxGeometry x="1076" y="212" width="234" height="464" as="geometry" />
+        </mxCell>
+
+        <!-- Gate de qualidade (entre silver e gold) -->
+        <mxCell id="gate" value="Gate&#10;de&#10;qualidade" style="rhombus;fillColor=#ED145B;strokeColor=#ED145B;fontColor=#FFFFFF;fontFamily=Calibri;fontSize=11;fontStyle=1;whiteSpace=wrap;html=1;spacing=0;" vertex="1" parent="1">
+          <mxGeometry x="1006" y="406" width="124" height="88" as="geometry" />
+        </mxCell>
+
+        <!-- Consumo -->
+        <mxCell id="con_lbl" value="CONSUMO" style="text;html=1;strokeColor=none;fillColor=none;fontColor=#555555;fontFamily=Calibri;fontSize=12;fontStyle=1;align=left;" vertex="1" parent="1">
+          <mxGeometry x="1370" y="180" width="220" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="cat" value="Glue Data Catalog&#10;+ Amazon Athena" style="rounded=1;fillColor=#FAFAFA;strokeColor=#555555;fontColor=#1A1A1A;fontFamily=Calibri;fontSize=13;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1370" y="212" width="210" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="bi" value="Dashboards / BI" style="rounded=1;fillColor=#FAFAFA;strokeColor=#555555;fontColor=#1A1A1A;fontFamily=Calibri;fontSize=13;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1370" y="360" width="210" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="ml" value="Modelos de ML" style="rounded=1;fillColor=#FAFAFA;strokeColor=#555555;fontColor=#1A1A1A;fontFamily=Calibri;fontSize=13;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1370" y="470" width="210" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Observabilidade (faixa inferior) -->
+        <mxCell id="obs" value="Amazon CloudWatch + SNS &#8212; latencia, volume, falhas e alertas por etapa" style="rounded=1;fillColor=#F2F2F2;strokeColor=#555555;fontColor=#555555;fontFamily=Calibri;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="560" y="724" width="770" height="42" as="geometry" />
+        </mxCell>
+
+        <!-- Rodape -->
+        <mxCell id="foot" value="Terraform provisiona e destroi tudo, agnostico a conta &#183; LocalStack roda a mesma pipeline em dev, custo zero" style="text;html=1;strokeColor=none;fillColor=none;fontColor=#555555;fontFamily=Calibri;fontSize=12;fontStyle=2;align=left;" vertex="1" parent="1">
+          <mxGeometry x="40" y="792" width="1200" height="24" as="geometry" />
+        </mxCell>
+
+        <!-- Setas de fluxo -->
+        <mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#1A1A1A;strokeWidth=1.5;endArrow=block;html=1;fontFamily=Calibri;fontSize=11;fontColor=#555555;" edge="1" parent="1" source="src_bd" target="ing_batch">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#1A1A1A;strokeWidth=1.5;endArrow=block;html=1;fontFamily=Calibri;fontSize=11;fontColor=#555555;" edge="1" parent="1" source="src_ev" target="ing_stream">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" value="grava" style="edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#ED145B;strokeWidth=2;endArrow=block;html=1;fontFamily=Calibri;fontSize=11;fontColor=#ED145B;" edge="1" parent="1" source="ing_batch" target="bronze">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" value="grava" style="edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#ED145B;strokeWidth=2;endArrow=block;html=1;fontFamily=Calibri;fontSize=11;fontColor=#ED145B;" edge="1" parent="1" source="ing_stream" target="bronze">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" style="rounded=0;strokeColor=#ED145B;strokeWidth=2;endArrow=block;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="bronze" target="silver">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" style="rounded=0;strokeColor=#ED145B;strokeWidth=2;endArrow=block;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="silver" target="gold">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" style="rounded=0;strokeColor=#1A1A1A;strokeWidth=1.5;endArrow=block;html=1;exitX=1;exitY=0.3;entryX=0;entryY=0.5;" edge="1" parent="1" source="gold" target="cat">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#1A1A1A;strokeWidth=1.5;endArrow=block;html=1;" edge="1" parent="1" source="cat" target="bi">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;strokeColor=#1A1A1A;strokeWidth=1.5;endArrow=block;html=1;" edge="1" parent="1" source="cat" target="ml">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
