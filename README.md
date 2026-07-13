@@ -117,6 +117,10 @@ A camada Gold já sai pronta para alimentar modelos e análises:
 
 O formato em Parquet particionado e o modelo dimensional facilitam tanto a engenharia de atributos quanto a leitura por ferramentas de BI e bibliotecas de machine learning.
 
+## Apresentação executiva
+
+Os slides que acompanham o vídeo executivo estão em [reports/slides/pipeline_alfabetizacao_fase2.pptx](reports/slides/pipeline_alfabetizacao_fase2.pptx), em formato 16:9, sintetizando contexto, arquitetura, valor e potencial de IA para uma audiência de liderança. O deck é gerado pelo script versionado na mesma pasta, então pode ser ajustado e refeito com facilidade.
+
 ## Como rodar
 
 Pré-requisitos: Docker, uv e Terraform. Para os jobs Spark localmente, também Java 17.
