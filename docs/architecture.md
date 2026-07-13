@@ -1,6 +1,10 @@
 # Arquitetura
 
-Detalhamento técnico da pipeline. A visão geral, o diagrama e os trade-offs principais estão no [README](../README.md); aqui o foco é como as peças se encaixam por dentro.
+Detalhamento técnico da pipeline. A visão geral e os trade-offs principais estão no [README](../README.md); aqui o foco é como as peças se encaixam por dentro.
+
+![Arquitetura da pipeline na AWS, com as camadas Bronze, Silver e Gold](diagrams/arquitetura_fase2.png)
+
+O diagrama acima (editável em [diagrams/arquitetura_fase2.drawio](diagrams/arquitetura_fase2.drawio)) mostra o fluxo ponta a ponta: ingestão híbrida, o lago S3 com as três camadas medalhão e seus datasets, o gate de qualidade entre Silver e Gold, a orquestração por Step Functions e a observabilidade por CloudWatch e SNS.
 
 ## Camadas e responsabilidades
 

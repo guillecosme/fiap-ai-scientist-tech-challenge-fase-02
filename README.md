@@ -50,6 +50,12 @@ flowchart LR
   CW[CloudWatch + SNS] -.observa.-> SF
 ```
 
+Para uma visão detalhada, com os serviços AWS e o conteúdo de cada camada Bronze, Silver e Gold:
+
+![Arquitetura da pipeline na AWS, com as camadas Bronze, Silver e Gold](docs/diagrams/arquitetura_fase2.png)
+
+O diagrama editável está em [docs/diagrams/arquitetura_fase2.drawio](docs/diagrams/arquitetura_fase2.drawio).
+
 ## Descrição da arquitetura da solução
 
 **Ingestão batch.** Um job lê as tabelas de referência e metas (UF, município, meta Brasil, meta por UF, meta por município) da Base dos Dados e grava cru no Bronze. Na AWS roda como job Glue agendado pelo EventBridge; sem um projeto de billing do Google Cloud configurado, cai para amostras locais versionadas, o que mantém a pipeline rodável de ponta a ponta.
@@ -119,7 +125,7 @@ O formato em Parquet particionado e o modelo dimensional facilitam tanto a engen
 
 ## Apresentação executiva
 
-Os slides que acompanham o vídeo executivo estão em [reports/slides/pipeline_alfabetizacao_fase2.pptx](reports/slides/pipeline_alfabetizacao_fase2.pptx), em formato 16:9, sintetizando contexto, arquitetura, valor e potencial de IA para uma audiência de liderança. O deck é gerado pelo script versionado na mesma pasta, então pode ser ajustado e refeito com facilidade.
+Os slides que acompanham o vídeo executivo estão em [reports/slides/pipeline_alfabetizacao_fase2.pptx](reports/slides/pipeline_alfabetizacao_fase2.pptx), em formato 16:9, sintetizando contexto, arquitetura, valor e potencial de IA para uma audiência de liderança. O slide de arquitetura traz o mesmo diagrama detalhado que aparece acima.
 
 ## Como rodar
 
