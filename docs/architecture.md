@@ -44,6 +44,12 @@ O mesmo código PySpark roda nos dois backends; só muda o esquema do caminho (`
 
 A reconciliação entre batch e streaming acontece na Silver. Os eventos de streaming trazem medições individuais e a carga batch traz agregados; ambos são levados ao grão ano x município x rede, com as quantidades somadas e a proficiência como média ponderada pelo número de avaliados. Em seguida, a junção com município e UF traz os atributos territoriais.
 
+## Gate de qualidade
+
+![Gate de qualidade: a suíte de checagens roda sobre a Silver e decide se o dado é promovido para a Gold](diagrams/gate_qualidade.png)
+
+O gate (`src/pipeline/quality/`) roda uma suíte de onze checagens sobre a Silver antes de liberar a promoção para a Gold, cobrindo duplicidade, valores ausentes, integridade referencial, faixa de valores e consistência entre colunas. Uma falha de severidade crítica levanta `QualityGateError` e interrompe a pipeline; um aviso registra a métrica e segue. As mesmas regras rodam também sobre a Gold, como última linha antes do consumo. Diagrama editável em [diagrams/gate_qualidade.drawio](diagrams/gate_qualidade.drawio).
+
 ## Decisões e trade-offs
 
 Os trade-offs de batch vs streaming, data lake vs data warehouse e custo vs performance estão descritos no README. Em resumo: híbrido porque cada dado pede um regime; data lake em Parquet porque mantém custo baixo e abre a Gold para SQL e ML; serverless e Step Functions no lugar de MWAA por custo quase zero quando ocioso.
