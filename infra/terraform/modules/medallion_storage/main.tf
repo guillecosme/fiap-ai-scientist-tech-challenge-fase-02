@@ -12,8 +12,9 @@ locals {
 resource "aws_s3_bucket" "layer" {
   for_each = toset(local.layers)
 
-  bucket = local.bucket_names[each.key]
-  tags   = merge(var.tags, { layer = each.key })
+  bucket        = local.bucket_names[each.key]
+  force_destroy = var.force_destroy
+  tags          = merge(var.tags, { layer = each.key })
 }
 
 # Versionamento ligado em todas as camadas. No Bronze e essencial para preservar
@@ -87,7 +88,7 @@ resource "aws_s3_bucket_lifecycle_configuration" "layer" {
 }
 
 resource "aws_glue_catalog_database" "layer" {
-  for_each = toset(local.layers)
+  for_each = var.enable_glue_catalog ? toset(local.layers) : toset([])
 
   name        = "${var.project}_${each.key}_${var.environment}"
   description = "Camada ${each.key} do data lake de alfabetizacao"
