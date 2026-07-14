@@ -58,7 +58,7 @@ O diagrama editável está em [docs/diagrams/arquitetura_fase2.drawio](docs/diag
 
 ## Descrição da arquitetura da solução
 
-**Ingestão batch.** Um job lê as tabelas de referência e metas (UF, município, meta Brasil, meta por UF, meta por município) da Base dos Dados e grava cru no Bronze. Na AWS roda como job Glue agendado pelo EventBridge; sem um projeto de billing do Google Cloud configurado, cai para amostras locais versionadas, o que mantém a pipeline rodável de ponta a ponta.
+**Ingestão batch.** Um job lê as tabelas de referência e metas (UF, município, meta Brasil, meta por UF, meta por município) da Base dos Dados e grava cru no Bronze. Na AWS roda como job Glue agendado pelo EventBridge. Sem um projeto de billing do Google Cloud, a pipeline roda com um extrato local em escala nacional: o território (UF e município) vem real da API pública do IBGE e as metas e o desempenho são simulados no mesmo esquema, gerados por [scripts/preparar_fontes.py](scripts/preparar_fontes.py). Uma execução de ponta a ponta com esse extrato, com volumes medidos e a leitura de custo, está em [docs/evidencias_execucao.md](docs/evidencias_execucao.md).
 
 **Ingestão streaming.** Um produtor simula a chegada de novas medições de desempenho e publica no Kinesis Data Stream. Uma Lambda consome o stream e grava os eventos brutos no Bronze, numa área de streaming particionada por data. Há também um modo offline que grava os eventos direto no Bronze, para rodar sem Kinesis.
 
@@ -166,5 +166,6 @@ Nada de account id ou nome de bucket fixo no código: os nomes recebem um sufixo
 - [Guia de execução e deploy](docs/deploy.md)
 - [Dicionário de dados](docs/data_dictionary.md)
 - [FinOps](docs/finops.md)
+- [Evidências de execução (volumes e custo)](docs/evidencias_execucao.md)
 - [Runbook de execução](docs/runbook.md)
 - [Exemplos de consulta na Gold](docs/exemplos_consultas.md)
