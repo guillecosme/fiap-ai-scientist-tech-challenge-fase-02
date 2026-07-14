@@ -25,6 +25,8 @@ dev = [
 [tool.ruff]
 line-length = 100
 target-version = "py312"
+# gerador one-off dos slides, com muitas linhas de layout; fora do padrao do pipeline
+extend-exclude = ["reports"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B"]
