@@ -68,3 +68,6 @@ volume/
 tmp/
 .pytest_cache/
 .ruff_cache/
+
+# variaveis de ambiente locais
+.env
