@@ -125,7 +125,9 @@ O formato em Parquet particionado e o modelo dimensional facilitam tanto a engen
 
 ## Apresentação executiva
 
-Os slides que acompanham o vídeo executivo estão em [reports/slides/pipeline_alfabetizacao_fase2.pptx](reports/slides/pipeline_alfabetizacao_fase2.pptx), em formato 16:9, sintetizando contexto, arquitetura, valor e potencial de IA para uma audiência de liderança. O slide de arquitetura traz o mesmo diagrama detalhado que aparece acima.
+**Vídeo executivo (5 min):** https://www.loom.com/share/ade3918fb4774c129402f385f178e717
+
+Os slides que acompanham o vídeo estão em [reports/slides/pipeline_alfabetizacao_fase2.pptx](reports/slides/pipeline_alfabetizacao_fase2.pptx) (e em [PDF](reports/slides/pipeline_alfabetizacao_fase2.pdf)), em formato 16:9, sintetizando contexto, arquitetura, valor e potencial de IA para uma audiência de liderança. O slide de arquitetura traz o mesmo diagrama detalhado que aparece acima.
 
 ## Como rodar
 
