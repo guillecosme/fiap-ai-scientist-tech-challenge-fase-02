@@ -29,12 +29,10 @@ class Settings:
     storage_backend: str = field(default_factory=lambda: os.getenv("STORAGE_BACKEND", "local"))
     data_root: str = field(default_factory=lambda: os.getenv("DATA_ROOT", "data"))
 
-    use_localstack: bool = field(
-        default_factory=lambda: os.getenv("USE_LOCALSTACK", "false").lower() == "true"
-    )
-    localstack_endpoint: str = field(
-        default_factory=lambda: os.getenv("LOCALSTACK_ENDPOINT", "http://localhost:4566")
-    )
+    # Endpoint da AWS. Vazio em conta real (usa o endpoint padrao de cada servico);
+    # apontado para o LocalStack quando se quer o caminho de nuvem localmente.
+    # E o unico interruptor entre "AWS real" e "LocalStack" no lado do codigo.
+    aws_endpoint_url: str | None = field(default_factory=lambda: os.getenv("AWS_ENDPOINT_URL"))
 
     # Projeto de billing do Google Cloud, exigido pelo pacote basedosdados para
     # consultar o datalake (a cota de 1 TB/mes e gratuita). Opcional: sem ele, a
