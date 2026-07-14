@@ -161,3 +161,4 @@ Nada de account id ou nome de bucket fixo no código: os nomes recebem um sufixo
 - [Dicionário de dados](docs/data_dictionary.md)
 - [FinOps](docs/finops.md)
 - [Runbook de execução](docs/runbook.md)
+- [Exemplos de consulta na Gold](docs/exemplos_consultas.md)
