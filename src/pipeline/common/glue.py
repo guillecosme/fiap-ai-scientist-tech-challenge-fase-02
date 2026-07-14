@@ -18,6 +18,7 @@ _GLUE_PARAMS = [
     "GOLD_BUCKET",
     "AWS_REGION",
     "BD_BILLING_PROJECT_ID",
+    "SEEDS_DIR",
 ]
 
 
