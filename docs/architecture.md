@@ -17,7 +17,7 @@ Detalhamento técnico da pipeline. A visão geral, o diagrama e os trade-offs pr
 - **Transformações** (`src/pipeline/transformations/`): `silver.py` e `gold.py`, em PySpark.
 - **Qualidade** (`src/pipeline/quality/`): checagens e gate que interrompe a pipeline em falha crítica.
 - **Comuns** (`src/pipeline/common/`): configuração por ambiente, sessão Spark, IO das camadas, métricas e a ponte de configuração do Glue.
-- **Infra** (`infra/terraform/`): módulos de storage, IAM, streaming, analytics, orquestração e monitoramento, montados no ambiente `dev`.
+- **Infra** (`infra/terraform/`): módulos de storage, IAM, streaming, analytics, orquestração e monitoramento, montados em dois roots (`environments/aws` para a conta real e `environments/localstack` para o modo local).
 
 ## Backends de armazenamento
 
