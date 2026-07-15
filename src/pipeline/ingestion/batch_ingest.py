@@ -80,7 +80,11 @@ def main() -> None:
         default=dt.date.today().isoformat(),
         help="Data de ingestao usada como particao (YYYY-MM-DD)",
     )
-    parser.add_argument("--seeds-dir", default="data/seeds", help="Diretorio das amostras locais")
+    parser.add_argument(
+        "--seeds-dir",
+        default=os.getenv("SEEDS_DIR", "data/seeds"),
+        help="Diretorio das amostras. Aceita caminho local ou s3a:// (para rodar na nuvem)",
+    )
     # parse_known_args ignora os argumentos extras que o Glue injeta no job.
     args, _ = parser.parse_known_args()
     run(args.table, args.ingestion_date, args.seeds_dir)
