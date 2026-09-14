@@ -19,7 +19,7 @@ make local
 
 Roda a pipeline inteira (ingestão batch, streaming em arquivo, Silver, Gold e o gate de qualidade). As camadas saem em `data/` em Parquet.
 
-Sem um projeto de billing do Google Cloud, a ingestão usa as amostras de `data/seeds`. Para puxar da Base dos Dados, defina `BD_BILLING_PROJECT_ID` no `.env`.
+Sem um projeto de billing do Google Cloud, a ingestão usa o extrato de `data/seeds` (território do IBGE e metas e alunos extraídos do Inep por `scripts/preparar_fontes.py`). Para puxar da Base dos Dados, defina `BD_BILLING_PROJECT_ID` no `.env`.
 
 Consultar a Gold localmente:
 

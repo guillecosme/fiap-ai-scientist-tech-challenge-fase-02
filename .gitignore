@@ -71,3 +71,4 @@ tmp/
 
 # variaveis de ambiente locais
 .env
+data/fontes_inep/
