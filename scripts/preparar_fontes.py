@@ -1,16 +1,19 @@
 """Prepara as fontes da pipeline em escala nacional.
 
 Territorio (UF e municipio) vem da API publica do IBGE, sem login e sem custo.
-Metas e dados de alunos sao simulados de forma deterministica no mesmo grao e
-esquema das fontes reais, ja que o microdado do Indicador Crianca Alfabetizada so
-sai pela Base dos Dados (BigQuery, que exige projeto de billing). O resultado
-substitui as amostras pequenas por um extrato do Brasil inteiro, que e o que a
-ingestao batch leria da fonte.
+Metas e dados de alunos vem dos arquivos que o Inep publica diretamente (planilhas
+de resultados e metas de 2023 a 2025 e microdados por aluno de 2024 e 2025), via
+scripts/extrair_inep.py, no mesmo grao e esquema que a ingestao batch leria da
+Base dos Dados.
+
+A primeira versao deste script simulava metas e alunos, porque na epoca o microdado
+so saia pela Base dos Dados (BigQuery, que exige billing). A simulacao continua
+disponivel com --simulado, para rodar offline ou em testes, mas o extrato padrao
+agora e real.
 
 Uso:
     python scripts/preparar_fontes.py --out data/seeds
-
-Reprodutivel: mesma seed, mesmo resultado. So o territorio depende da rede.
+    python scripts/preparar_fontes.py --out data/seeds --simulado
 """
 
 from __future__ import annotations
@@ -98,7 +101,7 @@ def _escrever(path: str, campos: list[str], linhas: list[dict]) -> None:
     print(f"[fontes] {os.path.basename(path)}: {len(linhas)} linhas")
 
 
-def gerar(out: str, seed: int = 42) -> None:
+def gerar_simulado(out: str, seed: int = 42) -> None:
     os.makedirs(out, exist_ok=True)
     rng = random.Random(seed)
 
@@ -159,7 +162,9 @@ def gerar(out: str, seed: int = 42) -> None:
             redes = ["publica"] + (["privada"] if rng.random() < 0.35 else [])
             for rede in redes:
                 avaliados = rng.randint(40, 200) if rede == "privada" else rng.randint(80, 14000)
-                alvo = base + (10 if rede == "privada" else 0) + (ano - 2024) * 2 + rng.uniform(-8, 8)
+                alvo = (
+                    base + (10 if rede == "privada" else 0) + (ano - 2024) * 2 + rng.uniform(-8, 8)
+                )
                 indicador = min(97.0, max(38.0, alvo))
                 alfabetizados = round(avaliados * indicador / 100)
                 prof = round(700 + (indicador - 55) * 1.1 + rng.uniform(-6, 6), 1)
@@ -180,12 +185,65 @@ def gerar(out: str, seed: int = 42) -> None:
     )
 
 
+def gerar_real(out: str, brutos: str = "data/fontes_inep") -> None:
+    """Territorio do IBGE e metas e alunos extraidos do Inep."""
+    import sys
+
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    import extrair_inep
+
+    os.makedirs(out, exist_ok=True)
+    ufs = carregar_ufs()
+    municipios = carregar_municipios(ufs)
+    print(f"[fontes] IBGE: {len(ufs)} UFs, {len(municipios)} municipios")
+    _escrever(
+        os.path.join(out, "uf.csv"),
+        ["id_uf", "sigla_uf", "nome_uf", "id_regiao", "nome_regiao"],
+        ufs,
+    )
+    _escrever(
+        os.path.join(out, "municipio.csv"),
+        ["id_municipio", "nome_municipio", "sigla_uf", "id_uf"],
+        municipios,
+    )
+
+    brasil, por_uf = extrair_inep.metas_uf(brutos)
+    brasil.to_csv(os.path.join(out, "meta_brasil.csv"), index=False)
+    por_uf[["ano", "sigla_uf", "meta_indicador"]].to_csv(
+        os.path.join(out, "meta_uf.csv"), index=False
+    )
+    metas_mun = extrair_inep.metas_municipio(brutos)
+    metas_mun[["ano", "id_municipio", "meta_indicador"]].to_csv(
+        os.path.join(out, "meta_municipio.csv"), index=False
+    )
+    alunos = extrair_inep.alunos(brutos)
+    alunos.to_csv(os.path.join(out, "alunos.csv"), index=False)
+    for nome, df in (
+        ("meta_brasil", brasil),
+        ("meta_uf", por_uf),
+        ("meta_municipio", metas_mun),
+        ("alunos", alunos),
+    ):
+        print(f"[fontes] {nome}.csv: {len(df)} linhas")
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Prepara as fontes em escala nacional")
     parser.add_argument("--out", default="data/seeds", help="Diretorio de saida dos CSVs")
-    parser.add_argument("--seed", type=int, default=42, help="Semente para reprodutibilidade")
+    parser.add_argument(
+        "--seed", type=int, default=42, help="Semente da simulacao (com --simulado)"
+    )
+    parser.add_argument(
+        "--simulado", action="store_true", help="simula metas e alunos em vez de extrair do Inep"
+    )
+    parser.add_argument(
+        "--brutos", default="data/fontes_inep", help="pasta dos arquivos baixados do Inep"
+    )
     args = parser.parse_args()
-    gerar(args.out, args.seed)
+    if args.simulado:
+        gerar_simulado(args.out, args.seed)
+    else:
+        gerar_real(args.out, args.brutos)
 
 
 if __name__ == "__main__":
